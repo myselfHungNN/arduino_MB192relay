@@ -23,8 +23,6 @@
 #define input5 A3
 #define input6 A4
 
-#define ledPin 13     // onboard led
-#define buttonPin 11  // push button
 
 /* This example code has 9 holding registers. 6 analogue inputs, 1 button, 1 digital output
    and 1 register to indicate errors encountered since started.
@@ -100,17 +98,18 @@ enum {                    // Bo sung them cac thanh ghi Holding Regiters
   Opto_HoldingRegs_53_1,  // 23  Reserved
   Opto_HoldingRegs_53_2,  // 24  Reserved
   counterIdx,             // 25
-  TOTAL_ERRORS,
   // add more Regs before this line=======
   HoldingRegsSize
 };
-#define _boardID 2
+
+#define _boardID 1
 #define _board595 12
 #define numberOf74HC595 (_board595 << 1)
 
 uint16_t holdingRegs[HoldingRegsSize];  // function 3 and 16 register array
+
 uint8_t Relay_value[numberOf74HC595];
-/*
+/* Array index
 0-3  Relay_HoldingRegs_11 (DPDT)
 4-7  Relay_HoldingRegs_12 (DPDT)
 8-11 Relay_HoldingRegs_01 (DPDT)
@@ -119,22 +118,22 @@ uint8_t Relay_value[numberOf74HC595];
 20-21 Relay_HoldingRegs_40 (SPDT)
 22-23 Relay_HoldingRegs_40 (SPDT)
 */
-////////////////////////////////////////////////////////////
-
-void setup() {
-
-  pinMode(RS485, OUTPUT);
+//=========================================================
+void setup() { 
   pinMode(SRCLK1, OUTPUT);
   pinMode(RCLK1, OUTPUT);
   pinMode(SER1, OUTPUT);
-
-  pinMode(OE1, OUTPUT);   digitalWrite(OE1, HIGH);
+  pinMode(OE1, OUTPUT);
+  digitalWrite(OE1, HIGH);
 
   pinMode(SRCLK2, OUTPUT);
   pinMode(RCLK2, OUTPUT);
   pinMode(SER2, OUTPUT);
-  pinMode(OE2, OUTPUT);   digitalWrite(OE2, HIGH);
+  pinMode(OE2, OUTPUT);
+  digitalWrite(OE2, HIGH);
   
+  pinMode(RS485,OUTPUT);
+
   pinMode(LED_BUILTIN, OUTPUT);
   digitalWrite(LED_BUILTIN, LOW);
 
@@ -179,7 +178,7 @@ void loop() {
     last_ms = millis();
   }
   delay(1);
-  }
+}
 //=================================
 bool checkNewRelayValue(uint8_t* Relay_value_1, const uint8_t* Relay_value) {
   unsigned char idx;
